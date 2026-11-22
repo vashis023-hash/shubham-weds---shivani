@@ -659,8 +659,8 @@ const DAYS = [
       bhoj: { t: 'Alongside, a delicious Bundeli Bhoj', d: 'The flavours of Bundelkhand, served with love', hi: 'साथ में स्वादिष्ट बुन्देली भोज' } } ]},
   { date: '2026-12-05', dow: 'Saturday', title: 'Shubh Vivah', hiT: 'शुभ विवाह', scene: 3, items: [
     { id: 'wedding', t: 'Wedding Ceremony', hi: 'पाणिग्रहण संस्कार', time: '9:00 AM onwards', s: '09:00', e: '13:00', where: 'The Grand Resort', addr: CONFIG.resortAddr, map: CONFIG.resortMap, art: 'agni', th: 't-wed', hl: true, fx: 'rose' },
-    { id: 'reception', t: 'Reception & Dinner', hi: 'आशीर्वाद समारोह एवं प्रीतिभोज', time: '7:00 PM onwards', s: '19:00', e: '23:00', where: 'The Grand Resort', addr: CONFIG.resortAddr, map: CONFIG.resortMap, art: 'jhoomar', th: 't-rec', fx: 'gold' },
-    { id: 'baraat', t: 'Baraat', hi: 'बारात', time: '7:30 PM', s: '19:30', e: '22:30', where: 'The Grand Resort', addr: CONFIG.resortAddr, map: CONFIG.resortMap, art: 'dhol', th: 't-nite', dark: true, fx: 'firework' } ]}
+    { id: 'baraat', t: 'Baraat', hi: 'बारात', time: '7:30 PM', s: '19:30', e: '20:30', where: 'The Grand Resort', addr: CONFIG.resortAddr, map: CONFIG.resortMap, art: 'dhol', th: 't-nite', dark: true, fx: 'firework' },
+    { id: 'reception', t: 'Reception & Dinner', hi: 'आशीर्वाद समारोह एवं प्रीतिभोज', time: '8:00 PM onwards', s: '20:00', e: '23:30', where: 'The Grand Resort', addr: CONFIG.resortAddr, map: CONFIG.resortMap, art: 'jhoomar', th: 't-rec', fx: 'gold' } ]}
 ];
 
 const SVGI = {
@@ -1032,7 +1032,7 @@ function startCountdown() {
       const after = dayIndex(Date.now()) > dayIndex(target);
       $('#countEyebrow').textContent = after ? 'Married on 5 December 2026' : 'The wedding day is here';
       $('#clock').hidden = true;
-      $('#countNote').textContent = after ? 'Thank you for your blessings and love.' : 'Pheras from 9:00 AM · Reception from 7:00 PM · The Grand Resort';
+      $('#countNote').textContent = after ? 'Thank you for your blessings and love.' : 'Pheras from 9:00 AM · Baraat 7:30 PM · Reception from 8:00 PM';
       $('#saveDate').hidden = true;
       return;
     }
