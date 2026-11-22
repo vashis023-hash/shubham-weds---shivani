@@ -4,9 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Shubham Weds Shivani</title>
-<meta name="description" content="Shubh Nimantran: the wedding of Shubham and Shivani, Saturday 5 December 2026, The Grand Resort, Jhansi.">
-<meta property="og:title" content="Shubham weds Shivani · 5 December 2026">
-<meta property="og:description" content="Shubh Nimantran from the Chaturvedi family. The Grand Resort, Pahuj Nahar Road, Jhansi.">
+<meta name="description" content="A special wedding invitation from the Chaturvedi family. Open it and scratch to reveal the date.">
+<meta property="og:title" content="॥ शुभ विवाह ॥ You’re invited!">
+<meta property="og:description" content="A special invitation from the Chaturvedi family. Open it and scratch the golden card to reveal the date.">
+<meta property="og:url" content="https://vashis023-hash.github.io/shubham-weds---shivani/">
+<meta property="og:image" content="https://vashis023-hash.github.io/shubham-weds---shivani/preview.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Shubh Vivah invitation from the Chaturvedi family">
+<meta name="twitter:card" content="summary_large_image">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#A8124F">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -137,6 +143,19 @@ section,header.hero,footer{padding:56px 20px}
 .dateblock .side{font-family:var(--caps);font-size:3.3cqw;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-hi);border-top:1px solid rgba(243,217,149,.6);border-bottom:1px solid rgba(243,217,149,.6);padding:.8cqw 0}
 .dateblock .num{font-family:var(--caps);font-size:12cqw;line-height:1}
 .dateblock .num sup{font-size:.32em;vertical-align:1.6em;-webkit-text-fill-color:var(--gold-hi)}
+.reveal{position:relative;width:100%;display:grid;justify-items:center;gap:1cqw;margin-top:2cqw;padding:1.4cqw 0}
+.reveal .dateblock{margin-top:0}
+#scratch{position:absolute;left:-3cqw;right:-3cqw;top:-1cqw;bottom:-1cqw;width:calc(100% + 6cqw);height:calc(100% + 2cqw);border-radius:14px;touch-action:none;cursor:grab;box-shadow:0 8px 22px rgba(40,0,20,.45);transition:opacity .8s ease,transform .8s ease}
+#scratch:focus-visible{outline:2px solid var(--gold-hi);outline-offset:3px}
+#scratch.done{opacity:0;transform:scale(1.08);pointer-events:none}
+.js body:not(.opened) #scratch{opacity:0}
+body.opened #scratch:not(.done){transition-delay:2.2s}
+.scratch-hint{position:absolute;bottom:-1cqw;left:50%;width:9cqw;height:9cqw;fill:#FFF9F4;stroke:#6b4510;stroke-width:1.3;stroke-linejoin:round;pointer-events:none;animation:rub 1.6s ease-in-out infinite;opacity:0;transition:opacity .4s}
+body.opened .scratch-hint{opacity:1;transition-delay:2.6s}
+.scratch-hint.gone{display:none}
+@keyframes rub{0%,100%{transform:translateX(-120%) rotate(-12deg)}50%{transform:translateX(40%) rotate(8deg)}}
+.reveal.revealed .dateblock,.reveal.revealed .year{animation:datePop .9s cubic-bezier(.2,1.5,.4,1)}
+@keyframes datePop{0%{transform:scale(.7);opacity:.2}100%{transform:none;opacity:1}}
 .year{font-family:var(--caps);font-size:3.6cqw;letter-spacing:.5em;color:var(--gold-hi);margin:0;padding-left:.5em}
 .js body:not(.opened) .names .n{clip-path:inset(-30% 105% -30% -12%)}
 .names .n{clip-path:inset(-30% -12% -30% -12%);transition:clip-path 1.7s cubic-bezier(.5,0,.2,1)}
@@ -342,7 +361,7 @@ footer .bless{font-family:var(--deva);font-size:18px;margin:16px 0 0;color:#FAD6
       <div class="g-names foil">Shubham<span class="amp">&amp;</span>Shivani</div>
     </div>
     <div class="g-bottom">
-      <div class="g-date caps">Saturday · 05 December 2026 · Jhansi</div>
+      <div class="g-date caps">The Grand Resort · Jhansi</div>
       <div class="g-open" role="status"><span>Opening your invitation</span><i></i><em id="fsHint" hidden>Tap anywhere for full screen</em></div>
     </div>
   </div>
@@ -364,12 +383,16 @@ footer .bless{font-family:var(--deva);font-size:18px;margin:16px 0 0;color:#FAD6
     <div class="arch-content">
       <p class="eyebrow">Shubh Nimantran</p>
       <h1 class="names"><span class="n n1 foil">Shubham</span><span class="weds">weds</span><span class="n n2 foil">Shivani</span></h1>
-      <div class="dateblock" aria-label="Saturday, 5th December 2026">
-        <span class="side">Saturday</span>
-        <span class="num foil">05<sup>th</sup></span>
-        <span class="side">December</span>
+      <div class="reveal" id="reveal">
+        <div class="dateblock" aria-label="Saturday, 5th December 2026">
+          <span class="side">Saturday</span>
+          <span class="num foil">05<sup>th</sup></span>
+          <span class="side">December</span>
+        </div>
+        <p class="year">2026</p>
+        <canvas id="scratch" role="button" tabindex="0" aria-label="Scratch to reveal the wedding date. Press Enter to reveal."></canvas>
+        <svg class="scratch-hint" id="scratchHint" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11V5.5a1.5 1.5 0 0 1 3 0V10m0-1.5a1.5 1.5 0 0 1 3 0V11m0-1a1.5 1.5 0 0 1 3 0v4.5a6 6 0 0 1-6 6h-.8a5 5 0 0 1-4-2L4.5 15a1.6 1.6 0 0 1 2.4-2.1L9 15"/></svg>
       </div>
-      <p class="year">2026</p>
     </div>
   </div>
 </header>
@@ -412,7 +435,7 @@ footer .bless{font-family:var(--deva);font-size:18px;margin:16px 0 0;color:#FAD6
   <p class="eyebrow" data-reveal>The Celebrations</p>
   <h2 class="script-h" data-reveal>Golden Moments</h2>
   <div class="divider" aria-hidden="true"><span></span><svg viewBox="0 0 24 18"><use href="#lotus"/></svg><span></span></div>
-  <p class="sub">Three days, 3 to 5 December 2026</p>
+  <p class="sub">Three days of celebrations, 3 to 5 December 2026</p>
   <div class="timeline" id="timeline"></div>
 </section>
 
@@ -455,7 +478,7 @@ footer .bless{font-family:var(--deva);font-size:18px;margin:16px 0 0;color:#FAD6
     <a class="btn solid" id="mapBtn" target="_blank" rel="noopener" href="https://maps.app.goo.gl/x6cvkR6TM8UTcHLM7"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg>Open in Google Maps</a>
     <button class="btn" type="button" id="copyAddr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>Copy address</button>
   </div>
-  <p class="home-note">Ganesh Poojan &amp; Mandap on 3 December is at the family residence: 277, Outside Khanderao Gate, Antia Talab Road, Jhansi. <a id="homeMap" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Khanderao%20Gate%20Antia%20Talab%20Road%20Jhansi">Find it on the map</a></p>
+  <p class="home-note">Ganesh Poojan, Mata Poojan &amp; Mandap on 3 December are at the family residence: 277, Outside Khanderao Gate, Antia Talab Road, Jhansi. <a id="homeMap" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Khanderao%20Gate%20Antia%20Talab%20Road%20Jhansi">Find it on the map</a></p>
 </section>
 
 <!-- ======== RSVP ======== -->
@@ -538,17 +561,20 @@ const HOME_MAP = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIC
 
 const DAYS = [
   { date: '2026-12-03', dow: 'Thursday', items: [
-    { id: 'ganesh', t: 'Ganesh Poojan & Mandap', hi: 'गणेश पूजन एवं मण्डप', where: 'At our residence', addr: CONFIG.homeAddr, map: HOME_MAP, icon: 'kalash' } ]},
+    { id: 'ganesh', t: 'Ganesh Poojan & Mandap', hi: 'गणेश पूजन एवं मण्डप', where: 'At our residence', addr: CONFIG.homeAddr, map: HOME_MAP, icon: 'kalash' },
+    { id: 'mata', t: 'Mata Poojan', hi: 'माता पूजन', where: 'At our residence', addr: CONFIG.homeAddr, map: HOME_MAP, icon: 'diya' } ]},
   { date: '2026-12-04', dow: 'Friday', items: [
-    { id: 'tilak', t: 'Tilak & Ring Ceremony', hi: 'तिलक एवं सगाई', time: '10:00 AM – 12:00 PM', s: '10:00', e: '12:00', where: 'The Grand Resort', addr: CONFIG.resortAddr, map: CONFIG.resortMap, icon: 'ring' },
-    { id: 'haldi', t: 'Haldi & Sangeet', hi: 'हल्दी एवं संगीत', where: 'The Grand Resort', addr: CONFIG.resortAddr, map: CONFIG.resortMap, icon: 'haldi' },
-    { id: 'bhoj', t: 'Mandap & Bundeli Bhoj', hi: 'मण्डप एवं बुन्देली भोज', time: '6:00 PM onwards', s: '18:00', e: '22:00', where: 'The Grand Resort', addr: CONFIG.resortAddr, map: CONFIG.resortMap, icon: 'thali' } ]},
+    { id: 'haldi', t: 'Haldi', hi: 'हल्दी', time: '2:00 PM onwards', s: '14:00', e: '17:00', where: 'The Grand Resort', addr: CONFIG.resortAddr, map: CONFIG.resortMap, icon: 'haldi' },
+    { id: 'sangeet', t: 'Ring Ceremony & Sangeet', hi: 'सगाई एवं संगीत', time: '6:00 PM onwards', s: '18:00', e: '22:00', where: 'The Grand Resort', addr: CONFIG.resortAddr, map: CONFIG.resortMap, icon: 'ring' } ]},
   { date: '2026-12-05', dow: 'Saturday', items: [
     { id: 'wedding', t: 'Wedding Ceremony', hi: 'पाणिग्रहण संस्कार', time: '9:00 AM onwards', s: '09:00', e: '13:00', where: 'The Grand Resort', addr: CONFIG.resortAddr, map: CONFIG.resortMap, icon: 'agni', hl: true },
-    { id: 'reception', t: 'Reception & Dinner', hi: 'आशीर्वाद समारोह एवं प्रीतिभोज', time: '7:00 PM onwards', s: '19:00', e: '23:00', where: 'The Grand Resort', addr: CONFIG.resortAddr, map: CONFIG.resortMap, icon: 'garland' } ]}
+    { id: 'reception', t: 'Reception & Dinner', hi: 'आशीर्वाद समारोह एवं प्रीतिभोज', time: '7:00 PM onwards', s: '19:00', e: '23:00', where: 'The Grand Resort', addr: CONFIG.resortAddr, map: CONFIG.resortMap, icon: 'garland' },
+    { id: 'baraat', t: 'Baraat', hi: 'बारात', time: '7:30 PM', s: '19:30', e: '22:30', where: 'The Grand Resort', addr: CONFIG.resortAddr, map: CONFIG.resortMap, icon: 'dhol' } ]}
 ];
 
 const ICONS = {
+  diya: '<path d="M4.5 18c2 6 6 9.5 11.5 9.5s9.5-3.5 11.5-9.5z"/><path d="M8 18h16"/><path d="M16 3.5c-2.6 3.2-3.6 6.2-1.6 8.3.9.9 2.3.9 3.2 0 2-2.1 1-5.1-1.6-8.3z"/><path d="M16 12v3"/>',
+  dhol: '<ellipse cx="9" cy="18" rx="4" ry="8"/><ellipse cx="23" cy="18" rx="4" ry="8"/><path d="M9 10h14M9 26h14"/><path d="M11 10.5l3 15 3-15 3 15 2-11"/><path d="M3 3l7 6M29 3l-7 6"/>',
   kalash: '<path d="M9 14h14"/><path d="M11 14c-3 2-4.5 5-4.5 8 0 4 4 7 9.5 7s9.5-3 9.5-7c0-3-1.5-6-4.5-8"/><path d="M12 14c0-2 1.6-3 4-3s4 1 4 3"/><circle cx="16" cy="7.5" r="3"/><path d="M13.5 9.5C10.5 9 8 7 7 4.5c3 0 5.4 1.2 7 3M18.5 9.5C21.5 9 24 7 25 4.5c-3 0-5.4 1.2-7 3"/><path d="M7.5 21h17"/>',
   ring: '<circle cx="12" cy="20" r="7"/><circle cx="20" cy="20" r="7"/><path d="M20 13l-3-3.2 1.4-2.8h3.2l1.4 2.8z"/>',
   haldi: '<path d="M5 18h22c0 5-5 9-11 9S5 23 5 18z"/><path d="M9.5 18c1-3.4 3.6-5.2 6.5-5.2s5.5 1.8 6.5 5.2"/><circle cx="16" cy="6.5" r="3.6" stroke-dasharray="2 1.3"/><circle cx="16" cy="6.5" r="1.1"/><path d="M24 4.5v6.5M24 11a1.8 1.8 0 1 1-1.8-1.8H24"/>',
@@ -577,7 +603,7 @@ function sealSVG(uid) {
     <circle r="47.5" fill="none" stroke="#7a5216" stroke-opacity=".55" stroke-width=".8"/>
     <circle r="44.5" fill="url(#sealFace)"/>
     <path id="ring-${uid}" d="M-35.5 0A35.5 35.5 0 1 1 35.5 0A35.5 35.5 0 1 1 -35.5 0" fill="none"/>
-    <text font-family="Forum, Georgia, serif" font-size="7.4" fill="#6b4510"><textPath href="#ring-${uid}" textLength="219" lengthAdjust="spacing">SHUBHAM • SHIVANI • 05 • 12 • 2026 •</textPath></text>
+    <text font-family="Forum, Georgia, serif" font-size="7.4" fill="#6b4510"><textPath href="#ring-${uid}" textLength="219" lengthAdjust="spacing">SHUBHAM • SHIVANI • SHUBH VIVAH •</textPath></text>
     <circle r="27" fill="none" stroke="#7a5216" stroke-opacity=".5" stroke-width=".7"/>
     <text x="-7" y="6" text-anchor="middle" font-family="'Pinyon Script', cursive" font-size="31" fill="#5a3a0c">S</text>
     <text x="9" y="13" text-anchor="middle" font-family="'Pinyon Script', cursive" font-size="31" fill="#5a3a0c">S</text>
@@ -871,15 +897,78 @@ function setupFullscreen() {
   const canFs = !!req && !/iPhone|iPod/.test(navigator.userAgent);
   if (canFs) { $('#fsHint').hidden = false; $('#musicTip').textContent = 'Tap anywhere for full screen & music'; }
   let done = false;
-  const go = e => {
+  const go = window.firstTap = e => {
     if (done) return; done = true;
     if (canFs && !(document.fullscreenElement || document.webkitFullscreenElement)) {
       try { const pr = req.call(de, { navigationUI: 'hide' }); if (pr && pr.catch) pr.catch(() => {}); } catch (_) {}
     }
-    if (!Music.playing && !(e.target.closest && e.target.closest('#music'))) Music.start();
+    if (!Music.playing && !(e && e.target && e.target.closest && e.target.closest('#music'))) Music.start();
     $('#musicTip').hidden = true;
   };
   document.addEventListener('click', go, { capture: true });
+}
+
+/* ---- Scratch to reveal the date ---- */
+function setupScratch() {
+  const wrap = $('#reveal'), cv = $('#scratch'), hint = $('#scratchHint'), ctx = cv.getContext('2d');
+  let revealed = false, drawing = false, last = null, moves = 0, W = 0, H = 0, lastW = 0, touched = false;
+  const finish = (silent) => {
+    if (revealed) return; revealed = true;
+    cv.classList.add('done'); hint.classList.add('gone'); wrap.classList.add('revealed');
+    cv.setAttribute('aria-hidden', 'true'); cv.tabIndex = -1;
+    if (!silent) { Petals.burst(80); toast('Saturday, 5 December 2026 · Save the date!'); }
+    try { localStorage.setItem('ssw-date-revealed', '1'); } catch (e) {}
+  };
+  try { if (localStorage.getItem('ssw-date-revealed') === '1') { finish(true); return; } } catch (e) {}
+  function paint() {
+    const r = cv.getBoundingClientRect(); if (!r.width) return;
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    W = r.width; H = r.height; lastW = W;
+    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.globalCompositeOperation = 'source-over';
+    const g = ctx.createLinearGradient(0, 0, W, H);
+    [[0, '#9b6d22'], [.22, '#f0d48a'], [.4, '#c2943a'], [.55, '#fff0c0'], [.75, '#c9993f'], [1, '#8a5e1a']].forEach(([o, c]) => g.addColorStop(o, c));
+    ctx.fillStyle = g; ctx.beginPath(); ctx.roundRect ? ctx.roundRect(0, 0, W, H, 14) : ctx.rect(0, 0, W, H); ctx.fill();
+    for (let i = 0; i < W * H / 40; i++) { ctx.fillStyle = `rgba(255,255,255,${Math.random() * .35})`; ctx.fillRect(Math.random() * W, Math.random() * H, 1.3, 1.3); }
+    for (let i = 0; i < W * H / 90; i++) { ctx.fillStyle = `rgba(110,70,10,${Math.random() * .25})`; ctx.fillRect(Math.random() * W, Math.random() * H, 1.2, 1.2); }
+    ctx.strokeStyle = 'rgba(107,69,16,.55)'; ctx.lineWidth = 1.2; ctx.setLineDash([3, 4]);
+    ctx.beginPath(); ctx.roundRect ? ctx.roundRect(6, 6, W - 12, H - 12, 10) : ctx.rect(6, 6, W - 12, H - 12); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle = '#5a3a0c'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.font = `${Math.round(H * .2)}px Forum, Georgia, serif`;
+    if (ctx.letterSpacing !== undefined) ctx.letterSpacing = `${Math.round(H * .04)}px`;
+    ctx.fillText('SCRATCH HERE', W / 2, H * .4);
+    if (ctx.letterSpacing !== undefined) ctx.letterSpacing = '0px';
+    ctx.font = `italic ${Math.round(H * .15)}px Spectral, Georgia, serif`;
+    ctx.fillText('to reveal the wedding date', W / 2, H * .66);
+  }
+  const pos = e => { const r = cv.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; };
+  function rub(p) {
+    ctx.globalCompositeOperation = 'destination-out'; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    ctx.lineWidth = Math.max(30, H * .34);
+    ctx.beginPath(); ctx.moveTo(last.x, last.y); ctx.lineTo(p.x + .01, p.y); ctx.stroke();
+    ctx.globalCompositeOperation = 'source-over'; last = p;
+  }
+  function cleared() {
+    const d = ctx.getImageData(0, 0, cv.width, cv.height).data; let n = 0, c = 0;
+    for (let i = 3; i < d.length; i += 64) { n++; if (d[i] < 100) c++; }
+    return n ? c / n : 0;
+  }
+  cv.addEventListener('pointerdown', e => {
+    if (revealed) return; drawing = true; last = pos(e); rub(last);
+    try { cv.setPointerCapture(e.pointerId); } catch (_) {}
+    if (!touched) { touched = true; hint.classList.add('gone'); }
+    e.preventDefault();
+  });
+  cv.addEventListener('pointermove', e => {
+    if (!drawing || revealed) return; rub(pos(e));
+    if (++moves % 5 === 0 && cleared() > .45) finish(false);
+  });
+  const end = e => { if (!drawing) return; drawing = false; if (window.firstTap) window.firstTap(e); if (!revealed && cleared() > .45) finish(false); };
+  cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end);
+  cv.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if (window.firstTap) window.firstTap(e); finish(false); } });
+  addEventListener('resize', () => { if (!revealed && Math.abs(cv.getBoundingClientRect().width - lastW) > 2) paint(); });
+  paint();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { if (!revealed && !touched) paint(); });
 }
 
 /* ---- Boot ---- */
@@ -898,6 +987,7 @@ setupDock();
 setupReveal();
 setupGate();
 setupFullscreen();
+setupScratch();
 })();
 </script>
 </body>
