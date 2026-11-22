@@ -225,6 +225,10 @@ body.opened .names .n2{transition-delay:1.9s}
 .ev .acts{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
 .ev .acts a{flex:1 1 auto;text-align:center;font-size:13px;font-weight:500;text-decoration:none;padding:6px 12px;border-radius:999px;border:1px solid rgba(168,18,79,.35);color:var(--rani);background:rgba(255,255,255,.6)}
 .ev .acts a:hover{background:var(--rani);color:var(--ivory)}
+.ev.main{background:linear-gradient(160deg,#FFF6DD,#F7E7B8);border:1.5px solid var(--gold);box-shadow:0 10px 26px rgba(185,138,47,.25)}
+.main-chip{display:inline-block;vertical-align:2px;margin-left:6px;font-family:var(--body);font-size:11px;font-weight:600;letter-spacing:.04em;padding:2px 8px;border-radius:999px;background:var(--rani);color:var(--ivory)}
+.ev .side-prog{margin-top:6px;padding-top:8px;border-top:1px dashed rgba(185,138,47,.6);color:var(--rani);font-weight:500;line-height:1.35}
+.ev .side-prog .deva{font-weight:400;font-size:13.5px;color:var(--soft)}
 .ev.hl{background:radial-gradient(120% 140% at 0% 0%,#C8246A,var(--rani) 45%,var(--rani-deep));color:var(--ivory);border-color:transparent;box-shadow:0 12px 30px rgba(110,10,53,.3)}
 .ev.hl .ic{background:rgba(255,249,244,.14);color:var(--gold-hi)}
 .ev.hl .hi{color:#F6C9DB}
@@ -564,8 +568,10 @@ const DAYS = [
     { id: 'ganesh', t: 'Ganesh Poojan & Mandap', hi: 'गणेश पूजन एवं मण्डप', where: 'At our residence', addr: CONFIG.homeAddr, map: HOME_MAP, icon: 'kalash' },
     { id: 'mata', t: 'Mata Poojan', hi: 'माता पूजन', where: 'At our residence', addr: CONFIG.homeAddr, map: HOME_MAP, icon: 'diya' } ]},
   { date: '2026-12-04', dow: 'Friday', items: [
-    { id: 'haldi', t: 'Haldi', hi: 'हल्दी', time: '2:00 PM onwards', s: '14:00', e: '17:00', where: 'The Grand Resort', addr: CONFIG.resortAddr, map: CONFIG.resortMap, icon: 'haldi' },
-    { id: 'sangeet', t: 'Ring Ceremony & Sangeet', hi: 'सगाई एवं संगीत', time: '6:00 PM onwards', s: '18:00', e: '22:00', where: 'The Grand Resort', addr: CONFIG.resortAddr, map: CONFIG.resortMap, icon: 'ring' } ]},
+    { id: 'tilak', t: 'Tilak Ceremony', hi: 'तिलक', time: '10:00 AM – 12:00 PM', s: '10:00', e: '12:00', where: 'The Grand Resort', addr: CONFIG.resortAddr, map: CONFIG.resortMap, icon: 'tilak' },
+    { id: 'haldi', t: 'Haldi', hi: 'हल्दी', time: '2:00 PM', s: '14:00', e: '17:00', where: 'The Grand Resort', addr: CONFIG.resortAddr, map: CONFIG.resortMap, icon: 'haldi' },
+    { id: 'bhoj', t: 'Mandap & Bundeli Bhoj', hi: 'मण्डप एवं बुन्देली भोज', time: '6:00 PM onwards', s: '18:00', e: '23:00', where: 'The Grand Resort', addr: CONFIG.resortAddr, map: CONFIG.resortMap, icon: 'thali', main: true,
+      side: 'Ring Ceremony & Sangeet alongside', sideHi: 'साथ में सगाई एवं संगीत' } ]},
   { date: '2026-12-05', dow: 'Saturday', items: [
     { id: 'wedding', t: 'Wedding Ceremony', hi: 'पाणिग्रहण संस्कार', time: '9:00 AM onwards', s: '09:00', e: '13:00', where: 'The Grand Resort', addr: CONFIG.resortAddr, map: CONFIG.resortMap, icon: 'agni', hl: true },
     { id: 'reception', t: 'Reception & Dinner', hi: 'आशीर्वाद समारोह एवं प्रीतिभोज', time: '7:00 PM onwards', s: '19:00', e: '23:00', where: 'The Grand Resort', addr: CONFIG.resortAddr, map: CONFIG.resortMap, icon: 'garland' },
@@ -573,6 +579,7 @@ const DAYS = [
 ];
 
 const ICONS = {
+  tilak: '<path d="M10 5v9a6 6 0 0 0 12 0V5"/><path d="M16 9v15"/><circle cx="16" cy="27" r="1.8"/>',
   diya: '<path d="M4.5 18c2 6 6 9.5 11.5 9.5s9.5-3.5 11.5-9.5z"/><path d="M8 18h16"/><path d="M16 3.5c-2.6 3.2-3.6 6.2-1.6 8.3.9.9 2.3.9 3.2 0 2-2.1 1-5.1-1.6-8.3z"/><path d="M16 12v3"/>',
   dhol: '<ellipse cx="9" cy="18" rx="4" ry="8"/><ellipse cx="23" cy="18" rx="4" ry="8"/><path d="M9 10h14M9 26h14"/><path d="M11 10.5l3 15 3-15 3 15 2-11"/><path d="M3 3l7 6M29 3l-7 6"/>',
   kalash: '<path d="M9 14h14"/><path d="M11 14c-3 2-4.5 5-4.5 8 0 4 4 7 9.5 7s9.5-3 9.5-7c0-3-1.5-6-4.5-8"/><path d="M12 14c0-2 1.6-3 4-3s4 1 4 3"/><circle cx="16" cy="7.5" r="3"/><path d="M13.5 9.5C10.5 9 8 7 7 4.5c3 0 5.4 1.2 7 3M18.5 9.5C21.5 9 24 7 25 4.5c-3 0-5.4 1.2-7 3"/><path d="M7.5 21h17"/>',
@@ -583,6 +590,7 @@ const ICONS = {
   garland: '<path d="M5 5c0 12.5 4.5 20 11 20S27 17.5 27 5" stroke-width="3.2" stroke-dasharray=".1 3.4"/><path d="M16 25v2.5"/><circle cx="16" cy="29" r="1.6"/><path d="M5 5h22"/>'
 };
 const SVGI = {
+  music: '<svg viewBox="0 0 24 24"><path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/></svg>',
   clock: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>',
   pin: '<svg viewBox="0 0 24 24"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg>',
   phone: '<svg viewBox="0 0 24 24"><path d="M5 4h3.5l1.5 4-2 1.5a11 11 0 0 0 6.5 6.5L16 14l4 1.5V19a1.5 1.5 0 0 1-1.6 1.5A16 16 0 0 1 3.5 5.6 1.5 1.5 0 0 1 5 4z"/></svg>'
@@ -690,7 +698,7 @@ function gcal(ev, date) {
     const n = new Date(Date.parse(date + 'T00:00:00Z') + 864e5).toISOString().slice(0, 10).replace(/-/g, '');
     dates = `${d}/${n}`;
   }
-  const p = new URLSearchParams({ action: 'TEMPLATE', text: `${ev.t} · Shubham & Shivani`, dates, ctz: 'Asia/Kolkata',
+  const p = new URLSearchParams({ action: 'TEMPLATE', text: `${ev.t}${ev.side ? ' (' + ev.side.replace(' alongside', '') + ')' : ''} · Shubham & Shivani`, dates, ctz: 'Asia/Kolkata',
     details: 'Wedding celebrations of Shubham & Shivani. Hosted by Smt. Urmila & Shri Hari Krishna Chaturvedi.', location: ev.addr });
   return 'https://calendar.google.com/calendar/render?' + p.toString();
 }
@@ -704,13 +712,14 @@ function renderEvents() {
       <div>
         <div class="dhead"><h3>${day.dow}</h3><span class="chip ${cls}">${label}</span></div>
         <div class="evs">${day.items.map(ev => `
-          <article class="ev${ev.hl ? ' hl' : ''}">
+          <article class="ev${ev.hl ? ' hl' : ''}${ev.main ? ' main' : ''}">
             <div class="ic"><svg viewBox="0 0 32 32" aria-hidden="true">${ICONS[ev.icon]}</svg></div>
-            <h4>${esc(ev.t)}</h4>
+            <h4>${esc(ev.t)}${ev.main ? ' <span class="main-chip">Main event</span>' : ''}</h4>
             <div class="hi" lang="hi">${ev.hi}</div>
             <div class="meta">
               ${ev.time ? `<div>${SVGI.clock}<span>${ev.time}</span></div>` : ''}
               <div>${SVGI.pin}<span>${esc(ev.where)}</span></div>
+              ${ev.side ? `<div class="side-prog">${SVGI.music}<span>${esc(ev.side)}<br><span lang="hi" class="deva">${ev.sideHi}</span></span></div>` : ''}
             </div>
             <div class="acts"><a href="${gcal(ev, day.date)}" target="_blank" rel="noopener">Add to calendar</a><a href="${ev.map}" target="_blank" rel="noopener">Directions</a></div>
           </article>`).join('')}
