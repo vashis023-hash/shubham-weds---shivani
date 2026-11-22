@@ -366,7 +366,7 @@ footer .bless{font-family:var(--deva);font-size:18px;margin:16px 0 0;color:#FAD6
     </div>
     <div class="g-bottom">
       <div class="g-date caps">The Grand Resort · Jhansi</div>
-      <div class="g-open" role="status"><span>Opening your invitation</span><i></i><em id="fsHint" hidden>Tap anywhere for full screen</em></div>
+      <div class="g-open" role="status"><span>Opening your invitation</span><i></i></div>
     </div>
   </div>
 </div>
@@ -899,18 +899,12 @@ function setupGate() {
   });
 }
 
-/* ---- Full screen on the first tap (Android browsers allow it; iPhone does not) ---- */
-function setupFullscreen() {
-  const de = document.documentElement;
-  const req = de.requestFullscreen || de.webkitRequestFullscreen;
-  const canFs = !!req && !/iPhone|iPod/.test(navigator.userAgent);
-  if (canFs) { $('#fsHint').hidden = false; $('#musicTip').textContent = 'Tap anywhere for full screen & music'; }
+/* ---- First tap anywhere starts the shehnai (phones block music until the guest taps) ---- */
+function setupFirstTap() {
+  $('#musicTip').textContent = 'Tap anywhere for shehnai music';
   let done = false;
   const go = window.firstTap = e => {
     if (done) return; done = true;
-    if (canFs && !(document.fullscreenElement || document.webkitFullscreenElement)) {
-      try { const pr = req.call(de, { navigationUI: 'hide' }); if (pr && pr.catch) pr.catch(() => {}); } catch (_) {}
-    }
     if (!Music.playing && !(e && e.target && e.target.closest && e.target.closest('#music'))) Music.start();
     $('#musicTip').hidden = true;
   };
@@ -996,7 +990,7 @@ setupShare();
 setupDock();
 setupReveal();
 setupGate();
-setupFullscreen();
+setupFirstTap();
 setupScratch();
 })();
 </script>
