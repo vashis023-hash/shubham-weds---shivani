@@ -98,6 +98,8 @@ a{color:inherit}
 .g-open i{display:block;width:132px;height:2px;border-radius:2px;background:rgba(168,18,79,.18);position:relative;overflow:hidden}
 .g-open i::after{content:"";position:absolute;inset:0;background:var(--foil);transform-origin:left center;transform:scaleX(0)}
 .gate.counting .g-open i::after{animation:fillbar var(--wait,2.6s) linear forwards}
+.g-open em{font-family:var(--body);font-style:italic;text-transform:none;letter-spacing:0;font-size:13.5px;color:var(--soft)}
+.g-open em[hidden]{display:none}
 @keyframes fillbar{to{transform:scaleX(1)}}
 
 /* ---------- Page column ---------- */
@@ -341,7 +343,7 @@ footer .bless{font-family:var(--deva);font-size:18px;margin:16px 0 0;color:#FAD6
     </div>
     <div class="g-bottom">
       <div class="g-date caps">Saturday · 05 December 2026 · Jhansi</div>
-      <div class="g-open" role="status"><span>Opening your invitation</span><i></i></div>
+      <div class="g-open" role="status"><span>Opening your invitation</span><i></i><em id="fsHint" hidden>Tap anywhere for full screen</em></div>
     </div>
   </div>
 </div>
@@ -862,6 +864,24 @@ function setupGate() {
   });
 }
 
+/* ---- Full screen on the first tap (Android browsers allow it; iPhone does not) ---- */
+function setupFullscreen() {
+  const de = document.documentElement;
+  const req = de.requestFullscreen || de.webkitRequestFullscreen;
+  const canFs = !!req && !/iPhone|iPod/.test(navigator.userAgent);
+  if (canFs) { $('#fsHint').hidden = false; $('#musicTip').textContent = 'Tap anywhere for full screen & music'; }
+  let done = false;
+  const go = e => {
+    if (done) return; done = true;
+    if (canFs && !(document.fullscreenElement || document.webkitFullscreenElement)) {
+      try { const pr = req.call(de, { navigationUI: 'hide' }); if (pr && pr.catch) pr.catch(() => {}); } catch (_) {}
+    }
+    if (!Music.playing && !(e.target.closest && e.target.closest('#music'))) Music.start();
+    $('#musicTip').hidden = true;
+  };
+  document.addEventListener('click', go, { capture: true });
+}
+
 /* ---- Boot ---- */
 buildPeacock();
 const art = archArt();
@@ -877,6 +897,7 @@ setupShare();
 setupDock();
 setupReveal();
 setupGate();
+setupFullscreen();
 })();
 </script>
 </body>
