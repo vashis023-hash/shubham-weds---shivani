@@ -368,6 +368,27 @@ footer .bless{font-family:var(--deva);font-size:18px;margin:16px 0 0;color:#FAD6
 .toast{position:fixed;left:50%;bottom:calc(86px + env(safe-area-inset-bottom));transform:translate(-50%,20px);background:var(--plum);color:var(--ivory);padding:10px 18px;border-radius:999px;font-size:14px;opacity:0;transition:opacity .3s,transform .3s;z-index:70;pointer-events:none;max-width:calc(100% - 40px);text-align:center;border:1px solid rgba(243,217,149,.4)}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 
+/* ---------- Tap hints: a little finger taps on Directions and phone numbers ---------- */
+.ev .acts a{display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.ev .acts a>svg{width:15px;height:15px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.tap-me{position:relative}
+.finger{position:absolute;right:2px;bottom:-16px;width:31px;height:31px;pointer-events:none;z-index:3;opacity:0}
+.finger svg{display:block;width:100%;height:100%;fill:#FFF9F4;stroke:#5a3a0c;stroke-width:1.3;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 2px 3px rgba(40,0,20,.35))}
+.finger::before{content:"";position:absolute;left:13.5px;top:5px;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;border:2px solid currentColor;opacity:0}
+.hint-on .finger{opacity:1;animation:fingerPop .55s cubic-bezier(.2,1.6,.4,1) both,fingerTap 2.6s ease-in-out calc(.6s + var(--d,0s)) infinite}
+.hint-on .finger::before{animation:tapRipple 2.6s ease-out calc(.6s + var(--d,0s)) infinite}
+.tap-me.hint-on{animation:tapPress 2.6s ease-in-out calc(.6s + var(--d,0s)) infinite}
+.calls a.hint-on>svg{animation:phoneRing 2.6s ease-in-out calc(.6s + var(--d,0s)) infinite}
+.tap-me.used,.tap-me.used>svg{animation:none}
+.tap-me.used .finger{display:none}
+#homeMap .finger{right:-20px;bottom:-17px;width:26px;height:26px}
+#homeMap .finger::before{left:11.5px;top:4px}
+@keyframes fingerPop{from{opacity:0;transform:translate(12px,16px) scale(.3)}to{opacity:1;transform:translate(5px,6px)}}
+@keyframes fingerTap{0%,72%,100%{transform:translate(5px,6px)}16%,32%,48%{transform:none}24%,40%{transform:scale(.84)}}
+@keyframes tapRipple{0%,22%{transform:scale(.3);opacity:0}24%{transform:scale(.35);opacity:.9}38%{transform:scale(1.5);opacity:0}40%{transform:scale(.35);opacity:.9}56%,100%{transform:scale(1.6);opacity:0}}
+@keyframes tapPress{0%,22%,29%,38%,45%,100%{transform:none}25%,41%{transform:scale(.95)}}
+@keyframes phoneRing{0%,30%,100%{transform:none}4%,12%,20%{transform:rotate(-14deg)}8%,16%,24%{transform:rotate(14deg)}}
+
 @media (min-width:600px){
   body{padding:32px 0}
   .page{border-radius:28px}
@@ -556,7 +577,7 @@ footer .bless{font-family:var(--deva);font-size:18px;margin:16px 0 0;color:#FAD6
   <p class="home-addr">277, Outside Khanderao Gate, Antia Talab Road, Jhansi (U.P.)</p>
 
   <div class="calls" aria-label="Phone numbers">
-    <p>Call the family</p>
+    <p>Tap a number to call</p>
     <div id="callList"></div>
   </div>
 </section>
@@ -640,6 +661,7 @@ const SVGI = {
   music: '<svg viewBox="0 0 24 24"><path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/></svg>',
   clock: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>',
   pin: '<svg viewBox="0 0 24 24"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg>',
+  cal: '<svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>',
   phone: '<svg viewBox="0 0 24 24"><path d="M5 4h3.5l1.5 4-2 1.5a11 11 0 0 0 6.5 6.5L16 14l4 1.5V19a1.5 1.5 0 0 1-1.6 1.5A16 16 0 0 1 3.5 5.6 1.5 1.5 0 0 1 5 4z"/></svg>'
 };
 
@@ -778,7 +800,7 @@ function renderEvents() {
               <div>${SVGI.pin}<span>${esc(ev.where)}</span></div>
               ${ev.bhoj ? `<div class="side-prog"><svg viewBox="0 0 32 32" aria-hidden="true">${ICONS.thali}</svg><span>${esc(ev.bhoj.t)}<br><i>${esc(ev.bhoj.d)}</i><br><span lang="hi" class="deva">${ev.bhoj.hi}</span></span></div>` : ''}
             </div>
-            <div class="acts"><a href="${gcal(ev, day.date)}" target="_blank" rel="noopener">Add to calendar</a><a href="${ev.map}" target="_blank" rel="noopener">Directions</a></div>
+            <div class="acts"><a href="${gcal(ev, day.date)}" target="_blank" rel="noopener">${SVGI.cal}Add to calendar</a><a class="dir" href="${ev.map}" target="_blank" rel="noopener">${SVGI.pin}Directions</a></div>
           </article>`).join('')}
         </div>
       </div>
@@ -1304,6 +1326,21 @@ function setupAutoTour(scratch) {
   document.addEventListener('invite-open', () => { started = true; arm(FIRST_WAIT); });
 }
 
+/* ---- Tap hints: a little finger pops out and taps on Directions and phone numbers, so guests know they can tap ---- */
+function setupTapHints() {
+  const HAND = '<svg viewBox="0 0 24 24"><path d="M9 11V5.5a1.5 1.5 0 0 1 3 0V10m0-1.5a1.5 1.5 0 0 1 3 0V11m0-1a1.5 1.5 0 0 1 3 0v4.5a6 6 0 0 1-6 6h-.8a5 5 0 0 1-4-2L4.5 15a1.6 1.6 0 0 1 2.4-2.1L9 15"/></svg>';
+  const els = $$('.ev .acts a.dir, #mapBtn, #homeMap, .calls a');
+  $$('.calls a').forEach((a, i) => a.style.setProperty('--d', (i * .85) + 's'));
+  els.forEach(el => {
+    el.classList.add('tap-me');
+    el.insertAdjacentHTML('beforeend', `<span class="finger" aria-hidden="true">${HAND}</span>`);
+    el.addEventListener('click', () => el.classList.add('used'));
+  });
+  if (!('IntersectionObserver' in window) || reduce) { els.forEach(e => e.classList.add('hint-on')); return; }
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('hint-on'); io.unobserve(e.target); } }), { threshold: .9, rootMargin: '0px 0px -8% 0px' });
+  els.forEach(e => io.observe(e));
+}
+
 /* ---- Boot ---- */
 buildPeacock();
 const art = archArt();
@@ -1316,6 +1353,7 @@ renderEvents();
 setupDays();
 startCountdown();
 setupCalls();
+setupTapHints();
 setupShare();
 setupDock();
 setupReveal();
