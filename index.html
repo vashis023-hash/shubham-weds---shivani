@@ -1115,7 +1115,7 @@ function setupGate() {
     setTimeout(() => Petals.burst(90), reduce ? 0 : 450);
     setTimeout(() => {
       gate.classList.add('gone'); document.body.classList.remove('locked'); $('#dock').hidden = false; Petals.ambient();
-      if (!byUser) { tip.hidden = false; setTimeout(() => { tip.hidden = true; }, 9000); }
+      if (!byUser && !Music.playing) tip.hidden = false;
     }, reduce ? 50 : 1500);
     setTimeout(() => { gate.hidden = true; }, reduce ? 200 : 2200);
   };
@@ -1133,14 +1133,19 @@ function setupGate() {
 
 /* ---- First tap anywhere starts the flute music (phones block music until the guest taps) ---- */
 function setupFirstTap() {
+  // iPhones don't send a "click" for taps on plain text, so listen to the tap itself too.
+  // Keeps trying on every tap until the music is really playing; stays quiet only if the guest paused it.
   $('#musicTip').textContent = 'Tap anywhere for flute music';
-  let done = false;
+  let paused = false;
+  $('#music').addEventListener('click', () => { paused = Music.playing; }, { capture: true });
   const go = window.firstTap = e => {
-    if (done) return; done = true;
-    if (!Music.playing && !(e && e.target && e.target.closest && e.target.closest('#music'))) Music.start();
+    if (_ac && _ac.state !== 'running' && !document.hidden) { try { _ac.resume(); } catch (_) {} }
+    if (paused || Music.playing) return;
+    if (e && e.target && e.target.closest && e.target.closest('#music')) return;
+    Music.start();
     $('#musicTip').hidden = true;
   };
-  document.addEventListener('click', go, { capture: true });
+  ['pointerup', 'touchend', 'click', 'keydown'].forEach(t => document.addEventListener(t, go, { capture: true, passive: true }));
 }
 
 /* ---- Scratch to reveal the date ---- */
