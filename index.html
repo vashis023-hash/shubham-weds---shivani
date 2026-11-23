@@ -177,7 +177,11 @@ body.opened .names .n2{transition-delay:1.9s}
 .unit::before{content:"";position:absolute;left:10%;right:10%;top:0;height:2px;background:var(--foil)}
 .unit b{display:block;font-family:var(--caps);font-weight:400;font-size:clamp(30px,9vw,42px);line-height:1.05;color:var(--rani);font-variant-numeric:tabular-nums}
 .unit b.tick{animation:tick .45s ease}
-@keyframes tick{0%{transform:translateY(-35%);opacity:0}100%{transform:none;opacity:1}}
+@keyframes tick{0%{transform:perspective(220px) rotateX(85deg);opacity:.2}100%{transform:none;opacity:1}}
+.unit::after{content:"";position:absolute;left:6px;right:6px;top:44%;height:1px;background:rgba(168,18,79,.13);pointer-events:none}
+.count .unit{transform-origin:50% 0;transition:transform .9s cubic-bezier(.2,1.35,.4,1),opacity .5s ease;transition-delay:calc(var(--u,0) * 130ms + 250ms)}
+.js .count:not(.in) .unit{transform:perspective(420px) rotateX(-95deg);opacity:0}
+.unit:nth-child(2){--u:1}.unit:nth-child(3){--u:2}.unit:nth-child(4){--u:3}
 .unit span{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--soft);font-family:var(--caps)}
 .count-note{margin:14px 0 0;color:var(--soft);font-style:italic;font-size:15.5px}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:10px 20px;border-radius:999px;border:1px solid var(--rani);background:var(--ivory);color:var(--rani);font-weight:500;font-size:15px;text-decoration:none;cursor:pointer;transition:background .2s,color .2s,transform .15s}
@@ -241,11 +245,19 @@ body.opened .names .n2{transition-delay:1.9s}
 
 /* light motion */
 .dmark b{position:relative;transition:transform .7s cubic-bezier(.2,1.5,.4,1),opacity .5s ease}
-.js .day:not(.in) .dmark b{transform:scale(.55);opacity:0}
+.js .day:not(.in) .dmark b{transform:perspective(300px) rotateX(-110deg);opacity:0}
+.js .day:not(.in) .dmark span{opacity:0;transform:translateY(-6px)}
+.dmark span{transition:opacity .5s ease .5s,transform .5s ease .5s}
 .day.in .dmark b::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:1.5px solid var(--gold);animation:ringOut 1.5s ease-out .35s both}
 @keyframes ringOut{from{transform:scale(.85);opacity:.9}to{transform:scale(1.6);opacity:0}}
 .js .day:not(.in) .dhead,.js .day:not(.in) .dtitle{opacity:0;transform:translateY(18px)}
-.js .ev:not(.in){opacity:0;transform:translateX(30px) scale(.96)}
+.js .ev:not(.in){opacity:0;transform:perspective(1000px) rotateY(34deg) translateX(26px) scale(.96)}
+.ev{transform-origin:0 50%}
+.ev .ic{transition:transform .65s cubic-bezier(.2,1.6,.4,1) calc(var(--i,0) * 120ms + 420ms)}
+.js .ev:not(.in) .ic{transform:scale(0) rotate(-35deg)}
+.ev h4,.ev .hi,.ev .meta>div{transition:opacity .5s ease,transform .5s ease;transition-delay:calc(var(--i,0) * 120ms + var(--k,0) * 110ms + 450ms)}
+.ev .hi{--k:1}.ev .meta>div:nth-child(1){--k:2}.ev .meta>div:nth-child(2){--k:3}.ev .meta>div:nth-child(3){--k:4}
+.js .ev:not(.in) h4,.js .ev:not(.in) .hi,.js .ev:not(.in) .meta>div{opacity:0;transform:translateX(-12px)}
 .day .dhead{transition:opacity .6s ease .1s,transform .6s ease .1s}
 .day .dtitle{transition:opacity .7s ease .25s,transform .7s ease .25s}
 .day .ev{transition:opacity .7s ease,transform .8s cubic-bezier(.2,.9,.3,1.05);transition-delay:calc(var(--i,0) * 120ms + 80ms);cursor:pointer;-webkit-tap-highlight-color:transparent}
@@ -260,7 +272,10 @@ body.opened .names .n2{transition-delay:1.9s}
 
 /* ---------- Event colours: each ceremony gets its own shade ---------- */
 .dtitle{display:flex;align-items:baseline;gap:4px 10px;flex-wrap:wrap;margin:-8px 0 12px}
-.dtitle .en{font-family:var(--display);font-size:31px;line-height:1.1;color:var(--rani)}
+.dtitle .en{font-family:var(--display);font-size:31px;line-height:1.1;color:var(--rani);clip-path:inset(-25% -6% -35% -6%);transition:clip-path 1.5s cubic-bezier(.5,0,.2,1) .35s}
+.js .day:not(.in) .dtitle .en{clip-path:inset(-25% 106% -35% -6%)}
+.dtitle .hi{transition:opacity .6s ease 1.3s}.js .day:not(.in) .dtitle .hi{opacity:0}
+.dhead .chip{transition:transform .55s cubic-bezier(.2,1.6,.4,1) .55s,opacity .4s ease .55s}.js .day:not(.in) .dhead .chip{transform:scale(.3);opacity:0}
 .dtitle .hi{font-family:var(--deva);font-size:14px;color:var(--gold)}
 .ev{--ac:var(--rani);--ic1:#D93D7F;--ic2:var(--rani-deep);background:var(--bg,var(--mist))}
 .ev.t-puja{--bg:linear-gradient(150deg,#FFF7EA,#FFE2BC);--ac:#C9560A;--ic1:#F7A93B;--ic2:#D9650F;border-color:rgba(217,101,15,.24)}
@@ -275,7 +290,9 @@ body.opened .names .n2{transition-delay:1.9s}
 .ev .ic::after{content:"";position:absolute;inset:-4px;border-radius:15px;border:1.5px solid var(--ac);opacity:0;animation:icHalo 3s ease-out infinite;animation-delay:calc(var(--i,0) * -.8s)}
 @keyframes icHalo{0%{transform:scale(.88);opacity:.6}70%,100%{transform:scale(1.28);opacity:0}}
 .ev .tm span{font-weight:600;color:var(--ac)}
-.ev .acts a{color:var(--ac);border-color:currentColor;transition:background .2s,color .2s}
+.ev .acts a{color:var(--ac);border-color:currentColor;--ad:calc(var(--i,0) * 120ms + 900ms);transition:background .2s,color .2s,opacity .5s ease var(--ad),transform .6s cubic-bezier(.2,1.5,.4,1) var(--ad)}
+.ev .acts a+a{--ad:calc(var(--i,0) * 120ms + 1020ms)}
+.js .ev:not(.in) .acts a{opacity:0;transform:translateY(12px) scale(.9)}
 .ev .acts a:hover{background:var(--ac);color:#FFF9F4;border-color:var(--ac)}
 .ev .bar{position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(var(--ic1),var(--ic2));transform:scaleY(0);transform-origin:top;transition:transform 1s cubic-bezier(.6,0,.2,1);transition-delay:calc(var(--i,0) * 120ms + 450ms);pointer-events:none}
 .ev.in .bar{transform:none}
@@ -286,8 +303,8 @@ body.opened .names .n2{transition-delay:1.9s}
 @keyframes twinkle{from{opacity:.2}to{opacity:1}}
 /* day badge lights up as the golden thread reaches it */
 .dmark b{transition:transform .7s cubic-bezier(.2,1.5,.4,1),opacity .5s ease,color .5s,border-color .5s,box-shadow .5s}
-.day.lit .dmark b{background:radial-gradient(circle at 35% 30%,#E0528D,var(--rani) 58%,var(--rani-deep));color:#FFF9F4;border-color:var(--gold-hi);box-shadow:0 0 0 4px rgba(243,217,149,.4),0 8px 18px rgba(168,18,79,.35);animation:litPop .6s cubic-bezier(.2,1.6,.4,1)}
-@keyframes litPop{40%{transform:scale(1.14)}100%{transform:none}}
+.day.lit .dmark b{background:radial-gradient(circle at 35% 30%,#E0528D,var(--rani) 58%,var(--rani-deep));color:#FFF9F4;border-color:var(--gold-hi);box-shadow:0 0 0 4px rgba(243,217,149,.4),0 8px 18px rgba(168,18,79,.35);animation:litPop .75s cubic-bezier(.3,1.3,.5,1)}
+@keyframes litPop{0%{transform:perspective(300px) rotateX(-180deg)}100%{transform:none}}
 .chip.today{animation:chipPulse 1.8s ease-in-out infinite}
 @keyframes chipPulse{50%{box-shadow:0 0 0 5px rgba(168,18,79,.18)}}
 
@@ -394,6 +411,12 @@ footer .bless{font-family:var(--deva);font-size:18px;margin:16px 0 0;color:#FAD6
 @keyframes swipeUp{0%{transform:translateY(11px);opacity:0}20%{opacity:1}70%{transform:translateY(-5px);opacity:1}100%{transform:translateY(-10px);opacity:0}}
 @keyframes hintIn{from{opacity:0;transform:translate(-50%,16px) scale(.9)}to{opacity:1;transform:translateX(-50%)}}
 @keyframes hintBob{0%,100%{transform:translateX(-50%)}50%{transform:translate(-50%,-4px)}}
+
+/* ---------- Calendar touches ---------- */
+.ev .acts a.cal>svg,#saveDate svg{transform-origin:50% 85%;animation:calHop 4.2s ease-in-out infinite;animation-delay:calc(var(--i,0) * .7s + 1.6s)}
+@keyframes calHop{0%,70%,100%{transform:none}75%{transform:translateY(-3px) rotate(-12deg)}81%{transform:translateY(0) rotate(9deg)}87%{transform:rotate(-5deg)}93%{transform:rotate(2deg)}}
+#saveDate{position:relative;overflow:hidden}
+#saveDate::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,rgba(243,217,149,.75) 45%,transparent 60%);background-size:250% 100%;animation:sheen 4.5s ease-in-out infinite;pointer-events:none}
 
 @media (min-width:600px){
   body{padding:32px 0}
@@ -807,7 +830,7 @@ function renderEvents() {
               <div>${SVGI.pin}<span>${esc(ev.where)}</span></div>
               ${ev.bhoj ? `<div class="side-prog"><svg viewBox="0 0 32 32" aria-hidden="true">${ICONS.thali}</svg><span>${esc(ev.bhoj.t)}<br><i>${esc(ev.bhoj.d)}</i><br><span lang="hi" class="deva">${ev.bhoj.hi}</span></span></div>` : ''}
             </div>
-            <div class="acts"><a href="${gcal(ev, day.date)}" target="_blank" rel="noopener">${SVGI.cal}Add to calendar</a><a class="dir" href="${ev.map}" target="_blank" rel="noopener">${SVGI.pin}Directions</a></div>
+            <div class="acts"><a class="cal" href="${gcal(ev, day.date)}" target="_blank" rel="noopener">${SVGI.cal}Add to calendar</a><a class="dir" href="${ev.map}" target="_blank" rel="noopener">${SVGI.pin}Directions</a></div>
           </article>`).join('')}
         </div>
       </div>
