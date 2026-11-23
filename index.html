@@ -153,6 +153,7 @@ section,header.hero,footer{padding:56px 20px}
 .scratch-hint{position:absolute;bottom:-1cqw;left:50%;width:9cqw;height:9cqw;fill:#FFF9F4;stroke:#6b4510;stroke-width:1.3;stroke-linejoin:round;pointer-events:none;animation:rub 1.6s ease-in-out infinite;opacity:0;transition:opacity .4s}
 body.opened .scratch-hint{opacity:1;transition-delay:2.6s}
 .scratch-hint.gone{display:none}
+body.opened .scratch-hint.auto{animation:none;bottom:auto;opacity:1;transition:none;transform:translate(-20%,-15%) rotate(-10deg)}
 @keyframes rub{0%,100%{transform:translateX(-120%) rotate(-12deg)}50%{transform:translateX(40%) rotate(8deg)}}
 .reveal.revealed .dateblock,.reveal.revealed .year{animation:datePop .9s cubic-bezier(.2,1.5,.4,1)}
 @keyframes datePop{0%{transform:scale(.7);opacity:.2}100%{transform:none;opacity:1}}
@@ -242,9 +243,11 @@ body.opened .names .n2{transition-delay:1.9s}
 .js .day:not(.in) .dmark b{transform:scale(.55);opacity:0}
 .day.in .dmark b::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:1.5px solid var(--gold);animation:ringOut 1.5s ease-out .35s both}
 @keyframes ringOut{from{transform:scale(.85);opacity:.9}to{transform:scale(1.6);opacity:0}}
-.js .day:not(.in) .ev,.js .day:not(.in) .dhead{opacity:0;transform:translateY(18px)}
+.js .day:not(.in) .dhead,.js .day:not(.in) .dtitle{opacity:0;transform:translateY(18px)}
+.js .ev:not(.in){opacity:0;transform:translateX(30px) scale(.96)}
 .day .dhead{transition:opacity .6s ease .1s,transform .6s ease .1s}
-.day .ev{transition:opacity .65s ease,transform .65s cubic-bezier(.2,.8,.3,1);transition-delay:calc(var(--i,0) * 110ms + 200ms);cursor:pointer;-webkit-tap-highlight-color:transparent}
+.day .dtitle{transition:opacity .7s ease .25s,transform .7s ease .25s}
+.day .ev{transition:opacity .7s ease,transform .8s cubic-bezier(.2,.9,.3,1.05);transition-delay:calc(var(--i,0) * 120ms + 80ms);cursor:pointer;-webkit-tap-highlight-color:transparent}
 .ev .ic svg{animation:floaty 3.8s ease-in-out infinite}
 .ev .ic .flame{transform-box:fill-box;transform-origin:50% 100%;animation:flick 1.1s ease-in-out infinite alternate}
 @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
@@ -253,6 +256,43 @@ body.opened .names .n2{transition-delay:1.9s}
 .ev.pop{animation:pop .4s ease}
 @keyframes pop{40%{transform:scale(1.02)}100%{transform:scale(1)}}
 .ev .side-prog i{font-weight:400;color:var(--soft)}
+
+/* ---------- Event colours: each ceremony gets its own shade ---------- */
+.dtitle{display:flex;align-items:baseline;gap:4px 10px;flex-wrap:wrap;margin:-8px 0 12px}
+.dtitle .en{font-family:var(--display);font-size:31px;line-height:1.1;color:var(--rani)}
+.dtitle .hi{font-family:var(--deva);font-size:14px;color:var(--gold)}
+.ev{--ac:var(--rani);--ic1:#D93D7F;--ic2:var(--rani-deep);background:var(--bg,var(--mist))}
+.ev.t-puja{--bg:linear-gradient(150deg,#FFF7EA,#FFE2BC);--ac:#C9560A;--ic1:#F7A93B;--ic2:#D9650F;border-color:rgba(217,101,15,.24)}
+.ev.t-tilak{--bg:linear-gradient(150deg,#FFF1F3,#FFD6DE);--ac:#B81E3C;--ic1:#E5486A;--ic2:#A8123A;border-color:rgba(184,30,60,.2)}
+.ev.t-haldi{--bg:linear-gradient(150deg,#FFFBE4,#FFEC9E);--ac:#A87300;--ic1:#F7C531;--ic2:#DB9400;border-color:rgba(201,138,0,.3)}
+.ev.t-star{--ac:var(--rani);--ic1:#D93D7F;--ic2:var(--rani-deep)}
+.ev.t-wed{--ac:var(--gold-hi);--ic1:#FFF1C2;--ic2:#C9993F}
+.ev.t-nite{--ac:var(--gold-hi);--ic1:#FFE7A3;--ic2:#C9993F;color:#F5F0FF;border-color:rgba(243,217,149,.35);box-shadow:0 12px 30px rgba(30,21,70,.35);
+  --bg:radial-gradient(1.4px 1.4px at 18% 30%,#fff 60%,transparent),radial-gradient(1px 1px at 64% 18%,#fff 60%,transparent),radial-gradient(1.2px 1.2px at 88% 62%,#fff 60%,transparent),radial-gradient(120% 140% at 100% 0%,#45318A,#211750 55%,#130D30)}
+.ev.t-rec{--bg:linear-gradient(150deg,#EDF8F3,#CBEBDD);--ac:#17694F;--ic1:#2E9A74;--ic2:#145848;border-color:rgba(31,122,92,.26)}
+.ev .ic{position:relative;background:linear-gradient(145deg,var(--ic1),var(--ic2));color:#FFF9F4;box-shadow:0 7px 14px -7px var(--ic2)}
+.ev .ic::after{content:"";position:absolute;inset:-4px;border-radius:15px;border:1.5px solid var(--ac);opacity:0;animation:icHalo 3s ease-out infinite;animation-delay:calc(var(--i,0) * -.8s)}
+@keyframes icHalo{0%{transform:scale(.88);opacity:.6}70%,100%{transform:scale(1.28);opacity:0}}
+.ev.t-nite .ic{color:#2A1B5C}
+.ev.t-nite .hi{color:#CFC4F5}
+.ev .tm span{font-weight:600;color:var(--ac)}
+.ev .acts a{color:var(--ac);border-color:currentColor;transition:background .2s,color .2s}
+.ev .acts a:hover{background:var(--ac);color:#FFF9F4;border-color:var(--ac)}
+.ev.t-nite .acts a{background:transparent;border-color:rgba(243,217,149,.6)}
+.ev.t-nite .acts a:hover{color:#211750}
+.ev .bar{position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(var(--ic1),var(--ic2));transform:scaleY(0);transform-origin:top;transition:transform 1s cubic-bezier(.6,0,.2,1);transition-delay:calc(var(--i,0) * 120ms + 450ms);pointer-events:none}
+.ev.in .bar{transform:none}
+.ev::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.42) 50%,transparent 65%);transform:translateX(-120%)}
+.ev.in::before{animation:enterShine 1.2s ease-out both;animation-delay:calc(var(--i,0) * 120ms + 650ms)}
+@keyframes enterShine{to{transform:translateX(120%)}}
+.ev.t-nite::after{content:"";position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(1.6px 1.6px at 8% 70%,#FFE7A3 60%,transparent),radial-gradient(1.3px 1.3px at 42% 12%,#fff 60%,transparent),radial-gradient(1.5px 1.5px at 74% 40%,#FFE7A3 60%,transparent),radial-gradient(1.2px 1.2px at 95% 14%,#fff 60%,transparent),radial-gradient(1.3px 1.3px at 55% 88%,#fff 60%,transparent);animation:twinkle 2.6s ease-in-out infinite alternate}
+@keyframes twinkle{from{opacity:.2}to{opacity:1}}
+/* day badge lights up as the golden thread reaches it */
+.dmark b{transition:transform .7s cubic-bezier(.2,1.5,.4,1),opacity .5s ease,color .5s,border-color .5s,box-shadow .5s}
+.day.lit .dmark b{background:radial-gradient(circle at 35% 30%,#E0528D,var(--rani) 58%,var(--rani-deep));color:#FFF9F4;border-color:var(--gold-hi);box-shadow:0 0 0 4px rgba(243,217,149,.4),0 8px 18px rgba(168,18,79,.35);animation:litPop .6s cubic-bezier(.2,1.6,.4,1)}
+@keyframes litPop{40%{transform:scale(1.14)}100%{transform:none}}
+.chip.today{animation:chipPulse 1.8s ease-in-out infinite}
+@keyframes chipPulse{50%{box-shadow:0 0 0 5px rgba(168,18,79,.18)}}
 
 /* ---------- Venue ---------- */
 .venue{background:var(--blush);text-align:center}
@@ -456,7 +496,7 @@ footer .bless{font-family:var(--deva);font-size:18px;margin:16px 0 0;color:#FAD6
   <p class="eyebrow" data-reveal>The Celebrations</p>
   <h2 class="script-h" data-reveal>Golden Moments</h2>
   <div class="divider" aria-hidden="true"><span></span><svg viewBox="0 0 24 18"><use href="#lotus"/></svg><span></span></div>
-  <p class="sub">Three days of celebrations, 3 to 5 December 2026. Tap an event to ring a little bell.</p>
+  <p class="sub">Three days of celebrations, 3 to 5 December 2026. Tap an event for a little bell and a shower of colour.</p>
   <div class="timeline" id="timeline"></div>
 </section>
 
@@ -585,7 +625,7 @@ const DAYS = [
     { id: 'ganesh', t: 'Ganesh Poojan & Mandap', hi: 'गणेश पूजन एवं मण्डप', where: 'At our residence', addr: CONFIG.homeAddr, map: HOME_MAP, art: 'kalash', th: 't-puja', fx: 'marigold' },
     { id: 'mata', t: 'Mata Poojan', hi: 'माता पूजन', where: 'At our residence', addr: CONFIG.homeAddr, map: HOME_MAP, art: 'diya', th: 't-puja', fx: 'marigold' } ]},
   { date: '2026-12-04', dow: 'Friday', title: 'Rang aur Sangeet', hiT: 'रंग और संगीत', scene: 2, items: [
-    { id: 'tilak', t: 'Tilak Ceremony', hi: 'तिलक', time: '10:00 AM – 12:00 PM', s: '10:00', e: '12:00', where: 'The Grand Resort', addr: CONFIG.resortAddr, map: CONFIG.resortMap, art: 'tilak', th: 't-tilak', fx: 'kumkum' },
+    { id: 'tilak', t: 'Tilak & Godh Bharai', hi: 'तिलक एवं गोद भराई', time: '10:00 AM – 12:00 PM', s: '10:00', e: '12:00', where: 'The Grand Resort', addr: CONFIG.resortAddr, map: CONFIG.resortMap, art: 'tilak', th: 't-tilak', fx: 'kumkum' },
     { id: 'haldi', t: 'Haldi', hi: 'हल्दी', time: '2:00 PM', s: '14:00', e: '17:00', where: 'The Grand Resort', addr: CONFIG.resortAddr, map: CONFIG.resortMap, art: 'haldi', th: 't-haldi', fx: 'haldi' },
     { id: 'sangeet', t: 'Ring Ceremony & Sangeet', hi: 'सगाई एवं संगीत', time: '6:00 PM onwards', s: '18:00', e: '23:00', where: 'The Grand Resort', addr: CONFIG.resortAddr, map: CONFIG.resortMap, art: 'sangeet', th: 't-star', star: true, fx: 'notes',
       cal: 'Ring Ceremony & Sangeet (with Bundeli Bhoj)',
@@ -726,13 +766,15 @@ function renderEvents() {
       <div class="dmark"><b>${num}</b><span>Dec</span></div>
       <div>
         <div class="dhead"><h3>${day.dow}</h3><span class="chip ${cls}">${label}</span></div>
+        <div class="dtitle"><span class="en">${esc(day.title)}</span><span class="hi" lang="hi">${day.hiT}</span></div>
         <div class="evs">${day.items.map((ev, i) => `
-          <article class="ev${ev.hl ? ' hl' : ''}${ev.star ? ' main' : ''}" style="--i:${i}" data-note="${n++}" tabindex="0">
+          <article class="ev ${ev.th}${ev.hl ? ' hl' : ''}${ev.star ? ' main' : ''}" style="--i:${i}" data-note="${n++}" data-fx="${ev.fx}" tabindex="0">
+            <span class="bar" aria-hidden="true"></span>
             <div class="ic"><svg viewBox="0 0 32 32" aria-hidden="true">${ICONS[ICON_OF[ev.art]]}</svg></div>
             <h4>${esc(ev.t)}${ev.star ? ' <span class="main-chip">Main event</span>' : ''}</h4>
             <div class="hi" lang="hi">${ev.hi}</div>
             <div class="meta">
-              ${ev.time ? `<div>${SVGI.clock}<span>${ev.time}</span></div>` : ''}
+              ${ev.time ? `<div class="tm">${SVGI.clock}<span>${ev.time}</span></div>` : ''}
               <div>${SVGI.pin}<span>${esc(ev.where)}</span></div>
               ${ev.bhoj ? `<div class="side-prog"><svg viewBox="0 0 32 32" aria-hidden="true">${ICONS.thali}</svg><span>${esc(ev.bhoj.t)}<br><i>${esc(ev.bhoj.d)}</i><br><span lang="hi" class="deva">${ev.bhoj.hi}</span></span></div>` : ''}
             </div>
@@ -744,13 +786,23 @@ function renderEvents() {
   }).join('');
 }
 function setupDays() {
-  const days = $$('.day');
+  const days = $$('.day'), cards = $$('.ev');
   if ('IntersectionObserver' in window && !reduce) {
     const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -12% 0px' });
     days.forEach(d => io.observe(d));
-  } else days.forEach(d => d.classList.add('in'));
-  // tap an event: a little bell and a few gold sparkles
-  const ring = (card, x, y) => { SFX.ting(+card.dataset.note); Petals.burstAt(x, y, 'gold'); card.classList.remove('pop'); void card.offsetWidth; card.classList.add('pop'); };
+    // each card slides in on its own and lets out a small puff of its own colour
+    const cio = new IntersectionObserver(es => es.forEach(e => {
+      if (!e.isIntersecting) return;
+      const c = e.target; c.classList.add('in'); cio.unobserve(c);
+      setTimeout(() => {
+        const r = c.querySelector('.ic').getBoundingClientRect();
+        if (r.bottom > 0 && r.top < innerHeight) Petals.burstAt(r.left + r.width / 2, r.top + r.height / 2, c.dataset.fx, 12);
+      }, (+c.style.getPropertyValue('--i') || 0) * 120 + 650);
+    }), { rootMargin: '0px 0px -10% 0px' });
+    cards.forEach(c => cio.observe(c));
+  } else { days.forEach(d => d.classList.add('in', 'lit')); cards.forEach(c => c.classList.add('in')); }
+  // tap an event: a little bell and a shower in that ceremony's colours
+  const ring = (card, x, y) => { SFX.ting(+card.dataset.note); Petals.burstAt(x, y, card.dataset.fx || 'gold'); card.classList.remove('pop'); void card.offsetWidth; card.classList.add('pop'); };
   $('#timeline').addEventListener('click', e => {
     if (e.target.closest('a')) return;
     const c = e.target.closest('.ev'); if (!c) return;
@@ -886,7 +938,7 @@ const Petals = (() => {
   return {
     burst(n = 80) { if (reduce) return; for (let i = 0; i < n; i++) parts.push(petal(true)); run(); },
     ambient() { if (reduce) return; ambient = true; const n = W < 600 ? 12 : 22; for (let i = 0; i < n; i++) parts.push(petal(false)); run(); },
-    burstAt(x, y, kind) { if (reduce) return; const n = (KINDS[kind] || KINDS.rose).n; for (let i = 0; i < n; i++) parts.push(make(kind, x, y)); run(); }
+    burstAt(x, y, kind, n) { if (reduce) return; n = n || (KINDS[kind] || KINDS.rose).n; for (let i = 0; i < n; i++) parts.push(make(kind, x, y)); run(); }
   };
 })();
 
@@ -994,7 +1046,7 @@ const SFX = (() => {
 
 /* ---- UI helpers ---- */
 let toastT;
-function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 2400); }
+function toast(msg, ms = 2400) { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), ms); }
 async function copy(text, okMsg) {
   try { await navigator.clipboard.writeText(text); toast(okMsg); }
   catch (e) { toast('Copying is blocked here. Press and hold the text to copy it.'); }
@@ -1037,8 +1089,12 @@ function setupReveal() {
   if (!('IntersectionObserver' in window) || reduce) { els.forEach(e => e.classList.add('in')); document.documentElement.classList.add('no-io'); return; }
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' });
   els.forEach(e => io.observe(e));
-  const tl = $('#timeline'); let pending = false;
-  const upd = () => { pending = false; const r = tl.getBoundingClientRect(); const p = Math.min(1, Math.max(0, (innerHeight * .62 - r.top) / r.height)); tl.style.setProperty('--p', p.toFixed(3)); };
+  const tl = $('#timeline'), marks = $$('.day').map(d => [d, $('.dmark b', d)]); let pending = false;
+  const upd = () => {
+    pending = false; const r = tl.getBoundingClientRect(), line = innerHeight * .62;
+    const p = Math.min(1, Math.max(0, (line - r.top) / r.height)); tl.style.setProperty('--p', p.toFixed(3));
+    marks.forEach(([d, b]) => { const br = b.getBoundingClientRect(); d.classList.toggle('lit', br.top + br.height / 2 < line); });
+  };
   addEventListener('scroll', () => { if (!pending) { pending = true; requestAnimationFrame(upd); } }, { passive: true });
   upd();
 }
@@ -1055,6 +1111,7 @@ function setupGate() {
     if (byUser) { Music.start(); Music.bell(); }
     gate.classList.add('opening');
     document.body.classList.add('opened');
+    document.dispatchEvent(new CustomEvent('invite-open', { detail: { byUser } }));
     setTimeout(() => Petals.burst(90), reduce ? 0 : 450);
     setTimeout(() => {
       gate.classList.add('gone'); document.body.classList.remove('locked'); $('#dock').hidden = false; Petals.ambient();
@@ -1097,7 +1154,7 @@ function setupScratch() {
     if (!silent) { Petals.burst(80); toast('Saturday, 5 December 2026 · Save the date!'); SFX.reveal(); }
     SFX.scratchStop();
   };
-  if (!ctx) { wrap.classList.add('ready'); cv.addEventListener('click', () => finish(false)); return; }
+  if (!ctx) { wrap.classList.add('ready'); cv.addEventListener('click', () => finish(false)); return { auto(done) { finish(false); done && done(); }, stopAuto() {}, get revealed() { return revealed; } }; }
   let tries = 0;
   function paint() {
     const r = cv.getBoundingClientRect(); if (!r.width || !r.height) { if (tries++ < 40) setTimeout(paint, 150); return; }
@@ -1151,6 +1208,95 @@ function setupScratch() {
   addEventListener('resize', () => { if (!revealed && Math.abs(cv.getBoundingClientRect().width - lastW) > 2) paint(); });
   requestAnimationFrame(paint);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { if (!revealed && !touched) paint(); });
+
+  // a guest who doesn't scratch: a little hand scratches the card for them
+  let autoRaf = 0;
+  const at = u => ({ x: W * (.5 - .42 * Math.cos(u * Math.PI * 7)), y: H * (.2 + .6 * u) });
+  function stopAuto() {
+    if (!autoRaf) return; cancelAnimationFrame(autoRaf); autoRaf = 0;
+    hint.classList.remove('auto'); hint.style.left = hint.style.top = '';
+  }
+  function auto(done) {
+    if (revealed) { done && done(); return; }
+    if (reduce || !W || !H) { finish(false); done && done(); return; }
+    hint.classList.remove('gone'); hint.classList.add('auto');
+    const dur = 1900, t0 = performance.now(); last = at(0);
+    const step = now => {
+      if (revealed) { stopAuto(); return; }
+      const u = Math.min(1, (now - t0) / dur), p = at(u);
+      rub(p); SFX.scratch(.45);
+      hint.style.left = (cv.offsetLeft + p.x) + 'px'; hint.style.top = (cv.offsetTop + p.y) + 'px';
+      if (u < 1) { autoRaf = requestAnimationFrame(step); return; }
+      autoRaf = 0; hint.classList.remove('auto'); finish(false); done && done();
+    };
+    autoRaf = requestAnimationFrame(step);
+  }
+  return { auto, stopAuto, get revealed() { return revealed; } };
+}
+
+/* ---- Auto tour: if a guest just watches, reveal the date for them and glide gently down the invitation.
+        Any touch, scroll or key stops it; after a quiet spell it carries on from wherever they are.
+        If the page can't scroll itself (some viewers show it inside a frame), it hops section by section instead. ---- */
+function setupAutoTour(scratch) {
+  const root = document.documentElement, sc = () => document.scrollingElement || root;
+  const FIRST_WAIT = 6000, IDLE_WAIT = 8000, HOP_EVERY = 5500;
+  let started = false, timer = 0, raf = 0, y = 0, lastTs = 0, told = false, hopMode = reduce, hopIdx = 0, stuck = 0;
+  const maxY = () => Math.max(0, sc().scrollHeight - innerHeight);
+  const arm = ms => { clearTimeout(timer); timer = setTimeout(next, ms); };
+  const tell = () => { if (!told) { told = true; toast('Sit back, the invitation will scroll for you. Touch to stop.', 3600); } };
+  function stop() { if (raf) cancelAnimationFrame(raf); raf = 0; root.style.scrollBehavior = ''; }
+  function glide(to, dur, done) {
+    stop(); root.style.scrollBehavior = 'auto';
+    const from = scrollY, t0 = performance.now();
+    const step = now => {
+      const k = Math.min(1, (now - t0) / dur), e = k < .5 ? 2 * k * k : 1 - (-2 * k + 2) ** 2 / 2;
+      scrollTo(0, from + (to - from) * e);
+      if (k < 1) raf = requestAnimationFrame(step); else { stop(); done && done(); }
+    };
+    raf = requestAnimationFrame(step);
+  }
+  function hops() {
+    const stops = ['#count', '#families', '#events', ...$$('.day'), '#venue', '#contact', '#compl', '#foot']
+      .map(t => typeof t === 'string' ? $(t) : t).filter(Boolean);
+    if (hopIdx >= stops.length) return;
+    tell();
+    stops[hopIdx++].scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    clearTimeout(timer); timer = setTimeout(hops, HOP_EVERY);
+  }
+  function cruise() {
+    stop();
+    // a frame stretched to the page's full height can't scroll itself, so hop section by section
+    if (hopMode || maxY() < 200 || innerHeight > (screen.height || 900) * 1.4) { hopMode = true; hops(); return; }
+    if (scrollY >= maxY() - 4) return;
+    root.style.scrollBehavior = 'auto'; y = scrollY; lastTs = 0; stuck = 0;
+    tell();
+    const step = now => {
+      const dt = lastTs ? Math.min(50, now - lastTs) : 16; lastTs = now;
+      if (Math.abs(scrollY - y) > 40) y = scrollY;               // something else moved the page
+      const before = scrollY, speed = Math.max(32, Math.min(60, innerHeight / 15));
+      y = Math.min(maxY(), y + speed * dt / 1000);
+      scrollTo(0, Math.round(y));
+      if (y >= maxY() - .5) { stop(); return; }
+      stuck = scrollY === before && Math.round(y) !== before ? stuck + 1 : 0;
+      if (stuck > 20) { stop(); hopMode = true; hops(); return; }  // the page won't move itself: hop instead
+      raf = requestAnimationFrame(step);
+    };
+    raf = requestAnimationFrame(step);
+  }
+  function next() {
+    if (!scratch.revealed) {
+      if (reduce) { scratch.auto(() => arm(3200)); return; }
+      const r = $('#reveal').getBoundingClientRect();
+      const go = () => scratch.auto(() => arm(3200));
+      if (r.top < 70 || r.bottom > innerHeight - 110) glide(Math.min(maxY(), Math.max(0, scrollY + r.top + r.height / 2 - innerHeight * .45)), 1000, go);
+      else go();
+      return;
+    }
+    cruise();
+  }
+  const activity = () => { if (!started) return; stop(); scratch.stopAuto(); arm(IDLE_WAIT); };
+  ['pointerdown', 'touchstart', 'wheel', 'keydown'].forEach(t => addEventListener(t, activity, { passive: true, capture: true }));
+  document.addEventListener('invite-open', () => { started = true; arm(FIRST_WAIT); });
 }
 
 /* ---- Boot ---- */
@@ -1170,7 +1316,7 @@ setupDock();
 setupReveal();
 setupGate();
 setupFirstTap();
-setupScratch();
+setupAutoTour(setupScratch());
 setTimeout(() => { try { Music.prepare().catch(() => {}); } catch (e) {} }, 4000);
 })();
 </script>
